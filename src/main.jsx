@@ -7,13 +7,16 @@ const en=["Home","Discover","Library","Playlists","Liked","Downloads","Studio","
 const icons=[Home,Compass,Library,ListMusic,Heart,Download,SlidersHorizontal,Settings];
 const fmt=n=>{if(!Number.isFinite(n))return"0:00";return Math.floor(n/60)+":"+String(Math.floor(n%60)).padStart(2,"0")};
 const fallback=(s="SHAKI")=>"https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=320&h=320&fit=crop";
+const readPrefs=()=>{try{return JSON.parse(localStorage.getItem("shaki-prefs")||"{}")}catch{return {}}};
 function App(){
- const[lang,setLang]=useState("fa"),[page,setPage]=useState("خانه"),[collapsed,setCollapsed]=useState(false),[local,setLocal]=useState([]),[online,setOnline]=useState([]),[playlists,setPlaylists]=useState([{name:"Night Drive",tracks:[]},{name:"Favorites",tracks:[]}]),[liked,setLiked]=useState([]),[downloads,setDownloads]=useState([]),[queue,setQueue]=useState([]),[track,setTrack]=useState(null),[playing,setPlaying]=useState(false),[query,setQuery]=useState(""),[loading,setLoading]=useState(false),[notice,setNotice]=useState(""),[volume,setVolume]=useState(.85),[muted,setMuted]=useState(false),[progress,setProgress]=useState(0),[duration,setDuration]=useState(0),[shuffle,setShuffle]=useState(false),[repeat,setRepeat]=useState(false),[showQueue,setShowQueue]=useState(false),[eq,setEq]=useState([0,0,0,0,0,0,0,0,0,0]),[preset,setPreset]=useState("Flat"),[scanBusy,setScanBusy]=useState(false),[dragging,setDragging]=useState(false);
+ const[prefs]=useState(readPrefs);
+ const[lang,setLang]=useState(prefs.lang||"fa"),[page,setPage]=useState("خانه"),[collapsed,setCollapsed]=useState(false),[local,setLocal]=useState([]),[online,setOnline]=useState([]),[playlists,setPlaylists]=useState(prefs.playlists||[{name:"Night Drive",tracks:[]},{name:"Favorites",tracks:[]}]),[liked,setLiked]=useState(prefs.liked||[]),[downloads,setDownloads]=useState([]),[queue,setQueue]=useState([]),[track,setTrack]=useState(null),[playing,setPlaying]=useState(false),[query,setQuery]=useState(""),[loading,setLoading]=useState(false),[notice,setNotice]=useState(""),[volume,setVolume]=useState(prefs.volume??.85),[muted,setMuted]=useState(false),[progress,setProgress]=useState(0),[duration,setDuration]=useState(0),[shuffle,setShuffle]=useState(false),[repeat,setRepeat]=useState(false),[showQueue,setShowQueue]=useState(false),[eq,setEq]=useState([0,0,0,0,0,0,0,0,0,0]),[preset,setPreset]=useState("Flat"),[scanBusy,setScanBusy]=useState(false),[dragging,setDragging]=useState(false);
  const audio=useRef(null),ctx=useRef(null),filters=useRef([]),source=useRef(null),timer=useRef(null);
  const faMode=lang==="fa",labels=faMode?fa:en,rtl=faMode;
  const say=(f,e)=>faMode?f:e;
  const notify=m=>{setNotice(m);clearTimeout(timer.current);timer.current=setTimeout(()=>setNotice(""),2800)};
  useEffect(()=>{document.documentElement.dir=rtl?"rtl":"ltr";document.documentElement.lang=lang;},[lang]);
+ useEffect(()=>{try{localStorage.setItem("shaki-prefs",JSON.stringify({lang,liked,playlists,volume}));}catch{}},[lang,liked,playlists,volume]);
  useEffect(()=>{(async()=>{if(window.shaki?.getLibrary){setScanBusy(true);try{const r=await window.shaki.getLibrary();setLocal(r.tracks||[]);}catch{notify(say("بارگذاری کتابخانه ناموفق بود","Could not load library"));}finally{setScanBusy(false);}}})();},[]);
  useEffect(()=>{if(audio.current){audio.current.volume=muted?0:volume;}},[volume,muted]);
  useEffect(()=>{const id=setInterval(()=>{if(audio.current&&!audio.current.paused)setProgress(audio.current.currentTime||0);},250);return()=>clearInterval(id);},[]);
