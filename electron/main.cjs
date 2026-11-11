@@ -6,6 +6,12 @@ const https = require("https");
 const http = require("http");
 const AUDIO_EXT = new Set([".mp3",".wav",".flac",".m4a",".aac",".ogg",".opus",".wma",".aiff"]);
 let win, metadataModule;
+const artworkCache = new Map();
+async function findArtwork(artist, album, title) {
+ const key = [artist, album].filter(Boolean).join(" | ") || title;
+ if (artworkCache.has(key)) return artworkCache.get(key);
+ try { const term = encodeURIComponent([artist, album || title].filter(Boolean).join(" ")); const data = await getJson("https://itunes.apple.com/search?term="+term+"&entity=song&limit=1&media=music"); const url = data.results?.[0]?.artworkUrl100?.replace("100x100bb","600x600bb") || null; artworkCache.set(key,url); return url; } catch { artworkCache.set(key,null); return null; }
+}
 const dataFile = () => path.join(app.getPath("userData"), "library.json");
 const readStore = () => { try { return JSON.parse(fs.readFileSync(dataFile(),"utf8")); } catch { return {folders:[]}; } };
 const writeStore = v => fs.writeFileSync(dataFile(),JSON.stringify(v,null,2));
@@ -23,7 +29,7 @@ async function getMetadata(file){
  try{
   metadataModule ||= await import("music-metadata");
   const meta=await metadataModule.parseFile(file,{skipCovers:false,duration:true}), c=meta.common||{}, pic=c.picture?.[0];
-  return {title:c.title||path.basename(file,path.extname(file)),artist:c.artist||c.albumartist||"هنرمند ناشناس",album:c.album||path.basename(path.dirname(file)),duration:meta.format?.duration||0,cover:pic?"data:"+pic.format+";base64,"+pic.data.toString("base64"):null,year:c.year||null,genre:c.genre?.[0]||null};
+  return {title:c.title||path.basename(file,path.extname(file)),artist:c.artist||c.albumartist||"هنرمند ناشناس",album:c.album||path.basename(path.dirname(file)),duration:meta.format?.duration||0,cover:pic?"data:"+pic.format+";base64,"+pic.data.toString("base64"):await findArtwork(c.artist||c.albumartist,c.album,c.title||path.basename(file,path.extname(file))),year:c.year||null,genre:c.genre?.[0]||null};
  }catch{return {title:path.basename(file,path.extname(file)),artist:"هنرمند ناشناس",album:path.basename(path.dirname(file)),duration:0,cover:null};}
 }
 async function walk(dir,out=[],depth=0){
