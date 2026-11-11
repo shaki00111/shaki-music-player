@@ -26,11 +26,19 @@
   "build": {
     "appId": "com.shaki.musicplayer",
     "productName": "SHAKI MUSIC",
-    "directories": { "output": "release" },
-    "files": ["dist/**/*", "electron/**/*", "package.json", "node_modules/music-metadata/**/*"],
+    "directories": {
+      "output": "release"
+    },
     "asar": true,
     "win": {
-      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
       "artifactName": "SHAKI-MUSIC-Setup-${version}.${ext}"
     },
     "nsis": {
