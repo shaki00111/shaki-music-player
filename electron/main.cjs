@@ -29,7 +29,7 @@ async function getMetadata(file){
  try{
   metadataModule ||= await import("music-metadata");
   const meta=await metadataModule.parseFile(file,{skipCovers:false,duration:true}), c=meta.common||{}, pic=c.picture?.[0];
-  return {title:c.title||path.basename(file,path.extname(file)),artist:c.artist||c.albumartist||"هنرمند ناشناس",album:c.album||path.basename(path.dirname(file)),duration:meta.format?.duration||0,cover:pic&&pic.data.length<700000?"data:"+pic.format+";base64,"+pic.data.toString("base64"):await findArtwork(c.artist||c.albumartist,c.album,c.title||path.basename(file,path.extname(file))),year:c.year||null,genre:c.genre?.[0]||null};
+  return {title:c.title||path.basename(file,path.extname(file)),artist:c.artist||c.albumartist||"هنرمند ناشناس",album:c.album||path.basename(path.dirname(file)),duration:meta.format?.duration||0,cover:pic&&pic.data.length<700000?"data:"+pic.format+";base64,"+pic.data.toString("base64"):null,year:c.year||null,genre:c.genre?.[0]||null};
  }catch{return {title:path.basename(file,path.extname(file)),artist:"هنرمند ناشناس",album:path.basename(path.dirname(file)),duration:0,cover:null};}
 }
 async function walk(dir,out=[],depth=0){
