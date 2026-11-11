@@ -10,7 +10,7 @@ const artworkCache = new Map();
 async function findArtwork(artist, album, title) {
  const key = [artist, album].filter(Boolean).join(" | ") || title;
  if (artworkCache.has(key)) return artworkCache.get(key);
- try { const term = encodeURIComponent([artist, album || title].filter(Boolean).join(" ")); const data = await getJson("https://itunes.apple.com/search?term="+term+"&entity=song&limit=1&media=music"); const url = data.results?.[0]?.artworkUrl100?.replace("100x100bb","600x600bb") || null; artworkCache.set(key,url); return url; } catch { artworkCache.set(key,null); return null; }
+ try { const term = encodeURIComponent([artist, album, title].filter(Boolean).join(" ")); const data = await getJson("https://itunes.apple.com/search?term="+term+"&entity=song&limit=1&media=music"); const url = data.results?.[0]?.artworkUrl100?.replace("100x100bb","600x600bb") || null; artworkCache.set(key,url); return url; } catch { artworkCache.set(key,null); return null; }
 }
 const dataFile = () => path.join(app.getPath("userData"), "library.json");
 const readStore = () => { try { return JSON.parse(fs.readFileSync(dataFile(),"utf8")); } catch { return {folders:[]}; } };
