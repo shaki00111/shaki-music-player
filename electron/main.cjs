@@ -45,9 +45,9 @@ async function walk(dir,out=[],depth=0){
  for(const folder of dirs){if(out.length>=5000)break;await walk(folder,out,depth+1);}
  return out;
 }
-ipcMain.handle("library:get",async()=>{const s=readStore(),tracks=[];for(const f of s.folders||[])await walk(f,tracks);return {folders:s.folders||[],tracks};});
+ipcMain.handle("library:get",async()=>{const s=readStore();if(Array.isArray(s.tracks))return{folders:s.folders||[],tracks:s.tracks.filter(t=>t.path&&fs.existsSync(t.path))};const tracks=[];for(const f of s.folders||[])await walk(f,tracks);s.tracks=tracks;writeStore(s);return{folders:s.folders||[],tracks};});
 ipcMain.handle("library:addFolder",async()=>{const r=await dialog.showOpenDialog(win,{properties:["openDirectory"]});if(r.canceled||!r.filePaths[0])return null;const folder=r.filePaths[0],s=readStore();s.folders=[...new Set([...(s.folders||[]),folder])];writeStore(s);return {folder,tracks:await walk(folder)};});
-ipcMain.handle("library:rescan",async()=>{const s=readStore(),tracks=[];for(const f of s.folders||[])await walk(f,tracks);return tracks;});
+ipcMain.handle("library:rescan",async()=>{const s=readStore(),tracks=[];for(const f of s.folders||[])await walk(f,tracks);s.tracks=tracks;writeStore(s);return tracks;});
 ipcMain.handle("library:chooseFiles",async()=>{const r=await dialog.showOpenDialog(win,{properties:["openFile","multiSelections"],filters:[{name:"Audio",extensions:[...AUDIO_EXT].map(x=>x.slice(1))}]});if(r.canceled)return[];const out=[];for(const f of r.filePaths){const s=await fs.promises.stat(f);out.push({id:f,path:f,url:pathToFileURL(f).href,size:s.size,...await getMetadata(f)});}return out;});
 ipcMain.handle("library:paths",async(_,paths)=>{const out=[];for(const file of (Array.isArray(paths)?paths:[]).slice(0,200)){try{if(!AUDIO_EXT.has(path.extname(file).toLowerCase()))continue;const s=await fs.promises.stat(file);out.push({id:file,path:file,url:pathToFileURL(file).href,size:s.size,...await getMetadata(file)});}catch{}}return out;});
 function getJson(url){return new Promise((resolve,reject)=>{https.get(url,{headers:{"User-Agent":"SHAKI-MUSIC/2.0",Accept:"application/json"}},res=>{let b="";res.setEncoding("utf8");res.on("data",x=>b+=x);res.on("end",()=>{if(res.statusCode!==200)return reject(Error("HTTP "+res.statusCode));try{resolve(JSON.parse(b));}catch(e){reject(e);}});}).on("error",reject);});}
