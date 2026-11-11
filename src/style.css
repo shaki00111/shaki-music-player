@@ -19,3 +19,5 @@
 .drop-overlay{position:absolute;inset:42px 0 94px;z-index:30;background:#111619d9;backdrop-filter:blur(12px);display:grid;place-items:center;border:2px dashed #aebdc1;color:#edf2f3;pointer-events:none}.drop-overlay>div{display:grid;justify-items:center;gap:12px;padding:36px 54px;border:1px solid #ffffff25;border-radius:14px;background:#30393e}.drop-overlay b{font-size:16px}.drop-overlay small{font-size:10px;color:#aab6bb}
 
 .spectrum{display:block;width:100%;height:90px;margin:14px 0 18px;border-radius:8px;background:linear-gradient(180deg,#151a1d88,#ffffff03);border:1px solid #ffffff0b}
+
+.cut-controls{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:12px 0 18px;padding:13px 15px;border:1px solid #ffffff10;border-radius:8px;background:#171c1f66}.cut-controls label{display:grid;gap:9px}.cut-controls label span{display:flex;justify-content:space-between;color:#9ba8ad;font-size:8px;letter-spacing:1px}.cut-controls label b{font-size:9px;color:#d5dddf;letter-spacing:0}.cut-controls input{width:100%;accent-color:#b8c4c7;height:3px}
