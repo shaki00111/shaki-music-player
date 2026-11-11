@@ -1,9 +1,14 @@
 const { contextBridge, ipcRenderer } = require("electron");
 contextBridge.exposeInMainWorld("shaki", {
-  pickMusicFolder: () => ipcRenderer.invoke("library:pick"),
+  getLibrary: () => ipcRenderer.invoke("library:get"),
+  addMusicFolder: () => ipcRenderer.invoke("library:addFolder"),
+  rescanLibrary: () => ipcRenderer.invoke("library:rescan"),
+  chooseMusicFiles: () => ipcRenderer.invoke("library:chooseFiles"),
   searchArchive: query => ipcRenderer.invoke("search:archive", query),
-  scanFolders: folders => ipcRenderer.invoke("library:scan", folders),
-  chooseFolder: () => ipcRenderer.invoke("folder:choose"),
   downloadAudio: data => ipcRenderer.invoke("download:audio", data),
-  openExternal: url => ipcRenderer.invoke("external:open", url)
+  openExternal: url => ipcRenderer.invoke("external:open", url),
+  minimize: () => ipcRenderer.invoke("window:minimize"),
+  maximize: () => ipcRenderer.invoke("window:maximize"),
+  close: () => ipcRenderer.invoke("window:close"),
+  isMaximized: () => ipcRenderer.invoke("window:isMaximized")
 });
