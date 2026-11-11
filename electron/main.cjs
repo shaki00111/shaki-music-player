@@ -37,8 +37,8 @@ async function walk(dir,out=[],depth=0){
  let entries;try{entries=await fs.promises.readdir(dir,{withFileTypes:true});}catch{return out;}
  const dirs=[],files=[];
  for(const e of entries){const full=path.join(dir,e.name);if(e.isDirectory()){if(!["System Volume Information","$RECYCLE.BIN","Windows","Program Files","node_modules"].includes(e.name))dirs.push(full);}else if(AUDIO_EXT.has(path.extname(e.name).toLowerCase()))files.push(full);}
- for(let i=0;i<files.length;i+=10){
-  const batch=files.slice(i,i+10);
+ for(let i=0;i<files.length;i+=4){
+  const batch=files.slice(i,i+4);
   const found=await Promise.all(batch.map(async file=>{try{const s=await fs.promises.stat(file);return{id:file,path:file,url:pathToFileURL(file).href,size:s.size,...await getMetadata(file)};}catch{return null;}}));
   out.push(...found.filter(Boolean));if(out.length>=5000)break;
  }
