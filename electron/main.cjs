@@ -29,10 +29,15 @@ async function getMetadata(file){
 async function walk(dir,out=[],depth=0){
  if(depth>8||out.length>=5000)return out;
  let entries;try{entries=await fs.promises.readdir(dir,{withFileTypes:true});}catch{return out;}
- for(const e of entries){const full=path.join(dir,e.name);
-  if(e.isDirectory()){if(!["System Volume Information","$RECYCLE.BIN","Windows","Program Files","node_modules"].includes(e.name))await walk(full,out,depth+1);}
-  else if(AUDIO_EXT.has(path.extname(e.name).toLowerCase()))try{const s=await fs.promises.stat(full);out.push({id:full,path:full,url:pathToFileURL(full).href,size:s.size,...await getMetadata(full)});}catch{}
- }return out;
+ const dirs=[],files=[];
+ for(const e of entries){const full=path.join(dir,e.name);if(e.isDirectory()){if(!["System Volume Information","$RECYCLE.BIN","Windows","Program Files","node_modules"].includes(e.name))dirs.push(full);}else if(AUDIO_EXT.has(path.extname(e.name).toLowerCase()))files.push(full);}
+ for(let i=0;i<files.length;i+=10){
+  const batch=files.slice(i,i+10);
+  const found=await Promise.all(batch.map(async file=>{try{const s=await fs.promises.stat(file);return{id:file,path:file,url:pathToFileURL(file).href,size:s.size,...await getMetadata(file)};}catch{return null;}}));
+  out.push(...found.filter(Boolean));if(out.length>=5000)break;
+ }
+ for(const folder of dirs){if(out.length>=5000)break;await walk(folder,out,depth+1);}
+ return out;
 }
 ipcMain.handle("library:get",async()=>{const s=readStore(),tracks=[];for(const f of s.folders||[])await walk(f,tracks);return {folders:s.folders||[],tracks};});
 ipcMain.handle("library:addFolder",async()=>{const r=await dialog.showOpenDialog(win,{properties:["openDirectory"]});if(r.canceled||!r.filePaths[0])return null;const folder=r.filePaths[0],s=readStore();s.folders=[...new Set([...(s.folders||[]),folder])];writeStore(s);return {folder,tracks:await walk(folder)};});
