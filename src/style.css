@@ -22,3 +22,34 @@
 @media(max-width:900px){.app{grid-template-columns:190px minmax(0,1fr)}.toolbar{gap:10px;padding-inline:13px}.viewport{padding:17px}.feature{height:220px}.feature h2{font-size:26px}.player{grid-template-columns:minmax(120px,1fr) minmax(190px,1.2fr) minmax(100px,1fr);gap:8px;padding:0 12px}.player-tools span{display:none}.row-actions{gap:2px}}
 @media(max-width:720px){.app{grid-template-columns:64px minmax(0,1fr)}.sidebar{padding-inline:8px}.brand-lockup>div:not(.logo),.side-caption,.sidebar nav span,.sidebar nav em,.side-playlists,.side-bottom{display:none}.sidebar .side-top{justify-content:center}.sidebar nav .nav-item{justify-content:center;padding:0}.toolbar .crumb,.toolbar .queue-toggle span,.toolbar .search kbd{display:none}.toolbar .search{margin:0}.page-head{align-items:flex-start;flex-direction:column}.feature-art{opacity:.28;right:-8%;width:65%}.rtl .feature-art{right:auto;left:-8%}.player{grid-template-columns:minmax(0,1fr) minmax(150px,1fr);}.player-tools{display:none}.list-head,.track-row{grid-template-columns:24px minmax(120px,1fr) 44px 90px}.list-head span:nth-child(3),.track-row .album{display:none}.track-row{padding:0 9px}.row-actions{gap:0}.row-actions button{padding:3px}.discover-panel{flex-direction:column;align-items:stretch}.discover-panel form{min-width:0;width:100%}.eq-panel{gap:3px;padding-inline:4px}.eq-band small{font-size:7px}.cut-controls{grid-template-columns:1fr}.queue-panel{width:min(300px,85vw)}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* SHAKI performance-first rendering layer */
+.app{background:radial-gradient(ellipse at 78% 0%,rgba(110,78,190,.15),transparent 40%),linear-gradient(145deg,#121421,#0b0d16 70%,#111321);box-shadow:0 12px 36px #0008}
+.app:before,.app:after{animation:none!important;opacity:.14;filter:none}
+.sidebar,.toolbar,.player,.queue-panel,.feature,.studio,.track-list,.playlist-card,.library-meter{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.sidebar{background:linear-gradient(165deg,#1c1d30,#141624)}
+.toolbar{background:#151725}
+.player{background:#171827}
+.queue-panel{background:#1a1b2d}
+.feature{background:linear-gradient(112deg,#393052,#243451 58%,#1b2033);box-shadow:0 12px 28px #0004}
+.feature:after{animation:none!important}
+.vinyl{animation:none!important;transform:rotate(-12deg);box-shadow:0 0 0 1px #ffffff22,0 0 32px #8166e533}
+.feature.is-playing .vinyl{animation:turn 32s linear infinite!important}
+.equal-bars i{animation:none!important;transform:scaleY(.55);opacity:.65}
+.feature.is-playing .equal-bars i{animation:bars 1.2s ease-in-out infinite alternate!important}
+.pulse{animation:none!important;box-shadow:0 0 8px #a78bfa}
+.track-list{background:#171827;border-color:#ffffff12}
+.list-head{background:#202137;backdrop-filter:none}
+.track-row{content-visibility:visible;contain:layout style;contain-intrinsic-size:auto}
+.spectrum{height:48px}
+.solid,.subtle,.nav-item,.track-row,.row-actions button,.window-actions button,.playlist-card{transition:transform .16s ease,background-color .16s ease,border-color .16s ease,color .16s ease,opacity .16s ease}
+.load-more{width:100%;height:42px;display:flex;align-items:center;justify-content:center;gap:12px;color:#d4c8ff;font-size:10px;border-top:1px solid #ffffff12;background:#ffffff05}
+.load-more span{color:#9690ae;font-size:9px}
+.playlist-card{position:relative;overflow:hidden;padding:12px}
+.playlist-card.pro-card{background:linear-gradient(145deg,#292343,#202d48);border-color:#a78bfa44}
+.playlist-card.simple-card{background:#191b2a}
+.playlist-card.pro-card:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,#ffffff0b,transparent 42%)}
+.playlist-kind{display:block;font-size:8px;letter-spacing:1.3px;color:#c3b2ff;margin:3px 0 7px}
+.simple-card .playlist-kind{color:#93b8ef}
+.playlist-cover{height:112px}
+@media(prefers-reduced-motion:reduce){.feature.is-playing .vinyl,.feature.is-playing .equal-bars i{animation:none!important}}
