@@ -1,7 +1,7 @@
 {
   "name": "shaki-music-player",
-  "version": "1.0.0",
-  "description": "SHAKI MUSIC - Premium desktop music player",
+  "version": "2.0.0",
+  "description": "SHAKI MUSIC - Hi-fi desktop music player",
   "main": "electron/main.cjs",
   "author": "SHAKI",
   "license": "MIT",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
+    "music-metadata": "^10.7.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -26,7 +27,7 @@
     "appId": "com.shaki.musicplayer",
     "productName": "SHAKI MUSIC",
     "directories": { "output": "release" },
-    "files": ["dist/**/*", "electron/**/*", "package.json"],
+    "files": ["dist/**/*", "electron/**/*", "package.json", "node_modules/music-metadata/**/*"],
     "asar": true,
     "win": {
       "target": [{ "target": "nsis", "arch": ["x64"] }],
