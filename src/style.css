@@ -53,3 +53,64 @@
 .simple-card .playlist-kind{color:#93b8ef}
 .playlist-cover{height:112px}
 @media(prefers-reduced-motion:reduce){.feature.is-playing .vinyl,.feature.is-playing .equal-bars i{animation:none!important}}
+
+
+/* SHAKI signature interface — rounded, in-window controls, GPU-friendly motion */
+*,*::before,*::after{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.app{width:calc(100% - 16px);height:calc(100% - 16px);margin:8px;border-radius:25px;border:1px solid rgba(190,169,255,.24);background:radial-gradient(ellipse at 78% 4%,#55408033,transparent 38%),radial-gradient(ellipse at 5% 92%,#24558a25,transparent 42%),linear-gradient(145deg,#121525 0%,#090b14 58%,#11101e 100%);box-shadow:0 18px 60px #0009;isolation:isolate}
+.titlebar{height:48px;min-height:48px;padding:0 14px 0 17px;background:linear-gradient(90deg,#1c1b30,#171d31 55%,#1c1930);border-bottom:1px solid #b8a4ff24;position:relative}
+.titlebar:after{content:"";position:absolute;inset-inline:18px;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,#a78bfa66,#60a5fa55,transparent);pointer-events:none}
+.titlebrand{gap:11px}.titlebrand b{font-size:11px;letter-spacing:1.8px}.titlebrand small{font-size:8px;color:#9993b8;letter-spacing:1.7px}
+.brand-symbol{width:28px;height:28px;border-radius:9px;background:linear-gradient(140deg,#c5aaff,#6b8cff);box-shadow:0 4px 18px #9271ff55}
+.window-actions{gap:7px;padding:3px 0}
+.window-actions button{width:34px;height:29px;border:1px solid #ffffff12;border-radius:9px;background:#ffffff08;color:#d4cdec;transition:background .15s ease,border-color .15s ease,transform .15s ease,color .15s ease}
+.window-actions button:hover{background:#ffffff18;border-color:#ffffff28;transform:translateY(-1px)}
+.window-actions .close:hover{background:#e64e6755;border-color:#ff8292aa;color:#fff}
+.sidebar{background:linear-gradient(180deg,#1b1c30 0%,#151827 100%);border-inline-end:1px solid #ffffff12}
+.nav-item{height:43px;border-radius:13px}.nav-item.active{background:linear-gradient(105deg,#9270e633,#5e8ce622);border-color:#b9a2ff3d;box-shadow:inset 3px 0 #b79aff,0 7px 18px #0003}
+.rtl .nav-item.active{box-shadow:inset -3px 0 #b79aff,0 7px 18px #0003}
+.toolbar{height:64px;min-height:64px;background:linear-gradient(90deg,#171a2b,#191a2c);border-bottom:1px solid #ffffff12}
+.search{height:40px;border-radius:13px;background:#0d1020;border-color:#ffffff20}
+.search:focus-within{border-color:#a78bfa99;box-shadow:0 0 0 3px #8b5cf622}
+.viewport{padding:27px 30px 32px;scrollbar-color:#7665a8 transparent}
+.page-head h1{font-size:28px;letter-spacing:-.7px}
+.page-head p{font-size:11px;color:#aaa5c4}
+.solid,.subtle{height:39px;border-radius:12px;font-size:10px}
+.solid{background:linear-gradient(115deg,#c0a5ff 0%,#8c83f4 48%,#6da9ff 100%);box-shadow:0 7px 22px #8468e644}
+.subtle{background:linear-gradient(145deg,#ffffff12,#ffffff06);border:1px solid #ffffff20;color:#ded8f2}
+.feature{height:270px;border-radius:24px;padding:30px 34px;background:linear-gradient(112deg,#3b315a 0%,#293a5d 58%,#1b223a 100%);border:1px solid #c7b3ff30;box-shadow:0 18px 42px #0005}
+.feature:before{background:linear-gradient(110deg,#ffffff13,transparent 48%,#8b5cf61a)}
+.feature:after{width:340px;height:340px;right:13%;top:-190px;background:radial-gradient(circle,#ad8cff2a,transparent 68%);animation:none}
+.feature h2{white-space:pre-line;font-size:34px;line-height:1.2;letter-spacing:-.8px}
+.feature p{font-size:11px;line-height:1.85;color:#d0c9e5}
+.feature-art{width:43%}
+.vinyl{width:210px;height:210px;box-shadow:0 0 0 1px #ffffff2a,0 0 55px #8b70ff55}
+.vinyl-label{width:68px;height:68px}
+.equal-bars{height:36px;bottom:24px;gap:4px}
+.equal-bars i{width:4px;background:linear-gradient(#d2baff,#77aaff)}
+.section-title{margin:29px 0 14px}
+.section-title h2{font-size:17px}
+.track-list{border-radius:17px;background:linear-gradient(145deg,#1b1d30,#141827);border:1px solid #ffffff1c;box-shadow:0 12px 28px #0003}
+.list-head{height:40px;background:#24243b;color:#b8afd7}
+.track-row{height:64px;border-bottom-color:#ffffff10}
+.track-row:hover,.track-row.current{background:linear-gradient(90deg,#9b7bff1c,#60a5fa13)}
+.cover{border-radius:11px}
+.empty{border-radius:20px;background:linear-gradient(145deg,#1a1b2d,#121727);border-color:#ffffff2b}
+.discover-panel,.studio{border-radius:21px;background:linear-gradient(135deg,#282442,#1d2b46);border-color:#ffffff20;box-shadow:0 14px 32px #0003}
+.playlist-card{border-radius:18px;background:linear-gradient(145deg,#24243a,#171b2b);border-color:#ffffff20}
+.playlist-card.pro-card{background:linear-gradient(145deg,#34284f,#263a5a);border-color:#b99cff55}
+.playlist-cover{border-radius:13px}
+.player{margin:0 10px 10px;padding:0 20px;border:1px solid #ffffff22;border-radius:19px;background:linear-gradient(110deg,#242139,#1a2238 55%,#222039);box-shadow:0 10px 28px #0005}
+.now .cover{width:50px;height:50px;flex-basis:50px;border-radius:13px}
+.control-row{gap:21px}
+.control-row .play{width:42px;height:42px;box-shadow:0 0 24px #9c7aff66}
+.seek input,.player-tools input{accent-color:#b89cff}
+.queue-panel{top:116px;bottom:104px;width:320px;border:1px solid #ffffff20;border-radius:18px 0 0 18px;background:#1d1d31;box-shadow:0 18px 45px #0008}
+.toast{border-radius:14px;background:#30284e;border-color:#b9a2ff55}
+.spectrum{border-radius:14px;background:linear-gradient(90deg,#17182b,#111a2b);border-color:#ffffff18}
+.load-more{height:46px;border-radius:0 0 15px 15px;background:#ffffff08}
+.solid:active,.subtle:active,.window-actions button:active,.nav-item:active{transform:scale(.975)}
+@media(max-width:1150px){.viewport{padding:22px}.feature{height:245px}}
+@media(max-width:900px){.viewport{padding:18px}.feature{height:220px}.feature h2{font-size:27px}}
+@media(max-width:720px){.app{width:calc(100% - 8px);height:calc(100% - 8px);margin:4px;border-radius:19px}.titlebar{padding-inline:10px}.titlebrand small{display:none}.window-actions{gap:4px}.window-actions button{width:29px;height:27px}.player{margin:0 5px 5px;padding:0 9px;border-radius:14px}.viewport{padding:14px}.feature{border-radius:18px}.feature h2{font-size:24px}.feature-art{opacity:.38}.track-list{border-radius:13px}}
+@media(prefers-reduced-motion:reduce){.solid,.subtle,.window-actions button,.nav-item{transition:none!important}}
